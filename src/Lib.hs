@@ -48,10 +48,17 @@ tieneElementoNecesario persona criatura = (criterio criatura) persona
 ganaExp :: Persona->Int->Persona
 ganaExp persona xpGanada = persona{xp = (xp persona) + xpGanada}
 --------------------------------------------------- Punto 3 ---------------------------------------------------
-grupoDeCriaturas = [siempreDetras,gnomos 10,fantasma 3 ((<10).edad),((elem "disfraz de oveja").items)]
+grupoDeCriaturas = [siempreDetras,gnomos 10,fantasma 3 (((<10).edad) && ((elem "disfraz de oveja").items))]
 
 enfrentamientoSucesivo :: Persona->[Criatura]->Int
 enfrentamientoSucesivo persona listaCriaturas = (diferenciaXp persona.foldl enfrentamiento persona) listaCriaturas
 -- le aplico la funcion enfrentamiento y persona a cada criatura y al resultado le calculo la diferencia con el del principio
 diferenciaXp :: Persona->Persona->Int
 diferenciaXp persona personaFinal = (xp personaFinal) - (xp persona)
+
+--------------------------------------------------- Parte 2 ---------------------------------------------------
+--------------------------------------------------- Punto 1 ---------------------------------------------------
+zipWithIf :: (a -> b -> b) -> (b -> Bool) -> [a] -> [b] -> [b]
+zipWithIf _ _ _ [] = agregoALista 
+zipWithIf funcion1 condicion (x:xs) (y:ys) |(not.condicion) y = (zipWithIf funcion1 condicion (x:xs) ys.)( y:[])
+                                           |otherwise = (zipWithIf funcion1 condicion xs ys).((x*y):[])
